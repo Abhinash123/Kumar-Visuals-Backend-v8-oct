@@ -417,7 +417,7 @@ export const verifyOrder = async (req, res, next) => {
     }
 
     // STRICT STATUS GATE (Only block if NOT Pending AND NOT Paid)
-    if (order.status !== "PENDING") {
+    if (order.status !== "PENDING" && order.status !== "PROCESSING") {
       return res.status(400).json({
         message: `Order cannot be paid (status: ${order.status})`,
       });
@@ -569,7 +569,7 @@ export const adminGetOrders = async (req, res, next) => {
       filter.user = userIdRaw;
     }
 
-    const allowedStatuses = ["PENDING", "PAID", "FAILED", "CANCELLED", "REFUNDED"];
+    const allowedStatuses = ["PENDING","PROCES SING", "PAID", "FAILED", "CANCELLED", "REFUNDED"];
     if (statusRaw && allowedStatuses.includes(statusRaw.toUpperCase())) {
       filter.status = statusRaw.toUpperCase();
     }
