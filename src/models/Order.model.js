@@ -120,7 +120,7 @@ const orderSchema = new Schema(
         /* ---------- STATUS ---------- */
         status: {
           type: String,
-          enum: ["PENDING", "PAID", "FAILED", "CANCELLED","REFUND_INITIATED", "REFUNDED"],
+          enum: ["PENDING","PROCESSING", "PAID", "FAILED", "CANCELLED","REFUND_INITIATED", "REFUNDED"],
           default: "PENDING",
           index: true,
         },
