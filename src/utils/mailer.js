@@ -17,6 +17,11 @@ if (!EMAIL_USER || !EMAIL_PASS) {
 function createTransporter() {
   return nodemailer.createTransport({
     service: "gmail",
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 100,
+    connectionTimeout: 10000,
+    socketTimeout: 15000,
     auth: {
       user: EMAIL_USER,
       pass: EMAIL_PASS,

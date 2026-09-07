@@ -159,7 +159,11 @@ export const deleteRating = async (req, res) => {
 
 export const getRatings = async (req, res) => {
   try {
-    const { productId } = req.params;
+    let { productId } = req.params;
+    productId = String(productId).substring(0, 24);
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
     const product = await Product.findById(
       productId,

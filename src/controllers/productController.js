@@ -311,7 +311,12 @@ export const getProducts = async (req, res, next) => {
 // --- PUBLIC API: Get By ID ---
 export const getProductById = async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const id = String(req.params.id).substring(0, 24);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const product = await Product.findById(id);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
     const isAdmin = Boolean(req.user?.roles?.includes("admin"));
@@ -326,7 +331,11 @@ export const getProductById = async (req, res, next) => {
 
 export const getRelatedProducts = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    let { id } = req.params;
+    id = String(id).substring(0, 24);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ message: "Product not found" });
+    }
     
     const current = await Product.findById(id).select("category tags").lean();
     if (!current) return res.status(404).json({ message: "Product not found" });
